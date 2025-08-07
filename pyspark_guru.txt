@@ -1508,6 +1508,98 @@ df_csv = spark.read.csv("data.csv",
 
 df_csv.show()
 ---
+# Reading a JSON file with options
+df_json = spark.read.json("data.json",
+                          multiLine=True,
+                          primitivesAsString=False,
+                          allowComments=True,
+                          dateFormat="yyyy-MM-dd",
+                          mode="PERMISSIVE")
+
+df_json.show()
+---
+# Reading a Parquet file
+df_parquet = spark.read.parquet("data.parquet",
+                               mergeSchema=True)
+
+df_parquet.show()
+---
+# Reading an ORC file
+df_orc = spark.read.orc("data.orc",
+                        mergeSchema=True)
+
+df_orc.show()
+---
+# Reading a text file
+df_text = spark.read.text("data.txt",
+                          lineSep="\n")
+
+df_text.show()
+---
+# Reading from a MySQL database
+jdbc_url = "jdbc:mysql://localhost:3306/mydb"
+properties = {"user": "root", "password": "pass", "driver": "com.mysql.jdbc.Driver"}
+
+df_jdbc = spark.read.jdbc(url=jdbc_url,
+                          table="employees",
+                          properties=properties,
+                          partitionColumn="id",
+                          lowerBound=1,
+                          upperBound=1000,
+                          numPartitions=10)
+
+df_jdbc.show()
+---
+# Reading a table from the catalog
+df_table = spark.read.table("my_table")
+
+df_table.show()
+---
+# Reading an Avro file
+df_avro = spark.read.format("avro").load("data.avro")
+
+df_avro.show()
+---
+# Reading a Delta table
+df_delta = spark.read.format("delta").load("delta_table_path",
+                                          versionAsOf=1)
+
+df_delta.show()
+---
+# Reading an XML file
+df_xml = spark.read.format("xml").load("data.xml",
+                                      rowTag="record",
+                                      attributePrefix="_",
+                                      treatEmptyValuesAsNulls=True)
+
+df_xml.show()
+---
+# Reading binary files
+df_binary = spark.read.format("binaryFile").load("images/",
+                                                pathGlobFilter="*.jpg",
+                                                recursiveFileLookup=True)
+
+df_binary.show()
+---
+# Reading a CSV file using the generic format
+df_generic = spark.read.format("csv").option("header", "true").load("data.csv")
+
+df_generic.show()
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>> READ, STRUCT, STRUCTURE 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+
+schema = StructType([
+    StructField("name", StringType(), True),
+    StructField("age", IntegerType(), True)
+])
+
+df_schema = spark.read.schema(schema).csv("data.csv")
+df_schema.show()
+
+
 
 
 
