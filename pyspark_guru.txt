@@ -1491,6 +1491,82 @@ Databricks is likely more cost-effective for large-scale or complex PySpark work
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 >> READ
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+#name,age,salary,date_joined
+#John Doe,30,50000,2023-01-15
+Alice,25,45000,2022-12-01
+"Bob, Smith",40,NaN,2021-06-30
+Carol,"35",60000,"2020-05-15 10:00:00"
+---
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType, DateType, TimestampType
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("CSVReadAllOptions").getOrCreate()
+
+# Define a custom schema
+schema = StructType([
+    StructField("name", StringType(), True),
+    StructField("age", IntegerType(), True),
+    StructField("salary", DoubleType(), True),
+    StructField("date_joined", DateType(), True)
+])
+
+# Read CSV with all options
+df = spark.read.csv(
+    "data.csv",
+    header=True,                               # Use first row as header
+    inferSchema=False,                         # Use custom schema instead
+    schema=schema,                             # Custom schema
+    delimiter=",",                             # Comma as delimiter
+    quote='"',                                 # Double quote for quoted fields
+    escape='\\',                               # Backslash for escaping
+    nullValue="NULL",                          # Treat "NULL" as null
+    dateFormat="yyyy-MM-dd",                   # Date format
+    timestampFormat="yyyy-MM-dd HH:mm:ss",     # Timestamp format
+    multiLine=True,                            # Allow multiline records
+    encoding="UTF-8",                          # File encoding
+    lineSep="\n",                              # Line separator
+    ignoreLeadingWhiteSpace=True,              # Ignore leading whitespace
+    ignoreTrailingWhiteSpace=True,             # Ignore trailing whitespace
+    comment="#",                               # Skip lines starting with #
+    mode="PERMISSIVE",                         # Handle corrupt records gracefully
+    samplingRatio=0.1,                         # Sample 10% for schema inference (not used with custom schema)
+    enforceSchema=False,                       # Merge schema if needed
+    pathGlobFilter="*.csv",                    # Only read .csv files
+    recursiveFileLookup=True,                  # Recursively scan directories
+    modifiedBefore="2025-08-01T00:00:00.000Z", # Files modified before this timestamp
+    modifiedAfter="2025-01-01T00:00:00.000Z",  # Files modified after this timestamp
+    quoteAll=False,                            # Do not quote all fields
+    escapeQuotes=True,                         # Escape quotes in quoted fields
+    emptyValue="",                             # Treat empty fields as empty strings
+    nanValue="NaN",                            # Treat "NaN" as NaN for numerics
+    positiveInf="Infinity",                    # Treat "Infinity" as positive infinity
+    negativeInf="-Infinity",                   # Treat "-Infinity" as negative infinity
+    unescapedQuoteHandling="SKIP_VALUE"        # Skip values with unescaped quotes
+)
+
+# Show the DataFrame
+df.show(truncate=False)
+
+# Print the schema
+df.printSchema()
+
+Output:
++----------+---+-------+------------+
+|name      |age|salary |date_joined |
++----------+---+-------+------------+
+|Alice     |25 |45000.0|2022-12-01  |
+|Bob, Smith|40 |null   |2021-06-30  |
+|Carol     |35 |60000.0|2020-05-15  |
++----------+---+-------+------------+
+
+root
+ |-- name: string (nullable = true)
+ |-- age: integer (nullable = true)
+ |-- salary: double (nullable = true)
+ |-- date_joined: date (nullable = true)
+
+---
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.appName("CSVExample").getOrCreate()
@@ -1598,6 +1674,7 @@ schema = StructType([
 
 df_schema = spark.read.schema(schema).csv("data.csv")
 df_schema.show()
+
 
 
 
