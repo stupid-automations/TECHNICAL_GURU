@@ -1,8 +1,9 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 >> TECHINICAL_GURU
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->> EMAIL,
+>> EMAIL
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import sys
@@ -44,10 +45,10 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 
 
-receiver = 'Bhaskar.C.Sati@nttdata.com'
-sender = 'gaurav.kesari@nttdata.com'
-subject = 'This is a test email'
-body = email_body
+receiver = 'ajay@gmail.com'
+sender = 'raj@gmail.com'
+subject = 'My Subject'
+body = "This is my Message"
 response = send_mail(sender, receiver, subject, body, region_name ='us-east-1')
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1671,6 +1672,7 @@ schema = StructType([
 
 df_schema = spark.read.schema(schema).csv("data.csv")
 df_schema.show()
+
 
 
 
