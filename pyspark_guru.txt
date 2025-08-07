@@ -326,7 +326,7 @@ df.show()
 |Cathy|  28| 75000|2021-09-10|     F|
 |David|null| 45000|2020-03-05|     M|
 +-----+----+------+----------+------+
-
+---
 1. Arithmetic Operations
 # Increase salary by 10% and create a new column
 df_arithmetic = df.withColumn("salary_increased", expr("salary * 1.10"))
@@ -339,7 +339,7 @@ df_arithmetic.show()
 |Cathy|  28| 75000|2021-09-10|     F|        82500.0|
 |David|null| 45000|2020-03-05|     M|        49500.0|
 +-----+----+------+----------+------+---------------+
-
+---
 2. String Manipulation
 # Concatenate name and gender with a separator
 df_string = df.withColumn("name_gender", expr("CONCAT(name, ' - ', gender)"))
@@ -352,7 +352,7 @@ df_string.show()
 |Cathy|  28| 75000|2021-09-10|     F|  Cathy - F|
 |David|null| 45000|2020-03-05|     M|  David - M|
 +-----+----+------+----------+------+-----------+
-
+---
 3. Conditional Logic (CASE WHEN)
 # Categorize salary into Low, Medium, High
 df_conditional = df.withColumn(
@@ -374,7 +374,7 @@ df_conditional.show()
 |Cathy|  28| 75000|2021-09-10|     F|           High|
 |David|null| 45000|2020-03-05|     M|            Low|
 +-----+----+------+----------+------+---------------+
-
+---
 4. Handling Null Values
 # Replace null age with average age (approx 27.67)
 df_null_handling = df.withColumn("age_filled", expr("COALESCE(age, 27)"))
@@ -387,7 +387,7 @@ df_null_handling.show()
 |Cathy|  28| 75000|2021-09-10|     F|        28|
 |David|null| 45000|2020-03-05|     M|        27|
 +-----+----+------+----------+------+----------+
-
+---
 5. Date and Time Operations
 # Add 30 days to join_date
 df_date = df.withColumn("join_date_plus_30", expr("DATE_ADD(join_date, 30)"))
@@ -400,7 +400,7 @@ df_date.show()
 |Cathy|  28| 75000|2021-09-10|     F|       2021-10-10|
 |David|null| 45000|2020-03-05|     M|       2020-04-04|
 +-----+----+------+----------+------+-----------------+
-
+---
 6. Aggregation with expr()
 # Calculate average salary by gender
 df_agg = df.groupBy("gender").agg(expr("AVG(salary) AS avg_salary"))
@@ -411,7 +411,7 @@ df_agg.show()
 |     F|   62500.0|
 |     M|   52500.0|
 +------+----------+
-
+---
 7. Using expr() in Filters
 # Filter employees with salary > 55000
 df_filter = df.where(expr("salary > 55000"))
@@ -422,7 +422,7 @@ df_filter.show()
 |  Bob| 30| 60000|2022-06-20|     M|
 |Cathy| 28| 75000|2021-09-10|     F|
 +-----+---+------+----------+------+
-
+---
 8. Mathematical Functions
 # Round salary to nearest 1000
 df_math = df.withColumn("salary_rounded", expr("ROUND(salary, -3)"))
@@ -435,7 +435,7 @@ df_math.show()
 |Cathy|  28| 75000|2021-09-10|     F|       75000.0|
 |David|null| 45000|2020-03-05|     M|       45000.0|
 +-----+----+------+----------+------+--------------+
-
+---
 9. Array and Struct Operations
 # Create an array column and extract first element
 df_array = df.withColumn("name_array", expr("ARRAY(name, gender)"))
@@ -449,7 +449,7 @@ df_array.show()
 |Cathy|  28| 75000|2021-09-10|     F|[Cathy, F]  |        Cathy|
 |David|null| 45000|2020-03-05|     M|[David, M]  |        David|
 +-----+----+------+----------+------+------------+-------------+
-
+---
 10. Combining Multiple Operations
 Combine multiple SQL operations in a single expr().
 
@@ -1672,6 +1672,7 @@ schema = StructType([
 
 df_schema = spark.read.schema(schema).csv("data.csv")
 df_schema.show()
+
 
 
 
