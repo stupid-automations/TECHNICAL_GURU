@@ -1748,9 +1748,6 @@ class SimpleS3Writer:
 
         print(f"DataFrame written to {base_path} as {ext} file.")
 
-
-# --- Usage example ---
-
 if __name__ == "__main__":
     spark = SparkSession.builder.appName("SimpleS3WriterExample").getOrCreate()
 
@@ -1762,6 +1759,7 @@ if __name__ == "__main__":
     obj.file = "data.csv"           # must be .csv, .tsv, or .txt
     obj.location = "some/folder"    # S3 folder inside bucket
     obj.write()
+
 
 
 
