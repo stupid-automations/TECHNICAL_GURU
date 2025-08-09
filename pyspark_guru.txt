@@ -1674,9 +1674,8 @@ df_schema = spark.read.schema(schema).csv("data.csv")
 df_schema.show()
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->> CLASS, INI, CONFIG, FILE_WRITE, PARSER
+>> INI, CLASS, CONFIG, FILE_WRITE, PARSER
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 import configparser
 from pyspark.sql import SparkSession, DataFrame
 
@@ -1763,6 +1762,7 @@ if __name__ == "__main__":
     obj.file = "data.csv"           # must be .csv, .tsv, or .txt
     obj.location = "some/folder"    # S3 folder inside bucket
     obj.write()
+
 
 
 
