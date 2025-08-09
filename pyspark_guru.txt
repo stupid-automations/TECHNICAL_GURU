@@ -3,7 +3,7 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->> EMAIL
+>> EMA
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import sys
@@ -32,11 +32,9 @@ def send_mail(sender, receiver, subject, body, region_name ='us-east-1'):
            'Body': {'Text':{'Data':body, 'Charset': 'UTF-8'} } }
         )
     except Exception as e:
-        print("Unable to send email, failed with error: {}".format(str(e)))
+        print("Unable to send email, failed with error: {}".format(str(e)))      
+---
 
-        
-
-### SEND EMAIL
 import sys
 from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
@@ -1759,6 +1757,7 @@ if __name__ == "__main__":
     obj.file = "data.csv"           # must be .csv, .tsv, or .txt
     obj.location = "some/folder"    # S3 folder inside bucket
     obj.write()
+
 
 
 
